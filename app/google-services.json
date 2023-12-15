@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1061584210599",
+    "project_id": "discord-clone-5a3c4",
+    "storage_bucket": "discord-clone-5a3c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061584210599:android:c8be8451f6561b868be982",
+        "android_client_info": {
+          "package_name": "com.harsh.discordclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeIvhnhm3t0hOrZIHLFBoyH8suZ1jRJPA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
