@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ebony_clay">#FF323338</color>
+    <color name="caviar">#FF292A2E</color>
+    <color name="blue_heath_butterfly">#FF5865F2</color>
+    <color name="crushed_velvet">#FF444C95</color>
+    <color name="intellectual">#FF40434C</color>
+    <color name="mithril_silver">#FFB8B9BF</color>
+    <color name="chrysocolla_green">#FF3A9062</color>
+    <color name="lead">#FF1E1F23</color>
+    <color name="river_styx">#FF191921</color>
+    <color name="musk_memory">#FFC07A87</color>
+
+
 </resources>

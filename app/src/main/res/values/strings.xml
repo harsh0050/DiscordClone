@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">Discord Clone</string>
+    <string name="background_image">background image</string>
+    <string name="welcome_to_discord">Welcome to Discord</string>
+    <string name="discord_description">Join over 100 million people who use Discord to talk with communities and friends.</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log in</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="next">Next</string>
+    <string name="back_button">back button</string>
+    <string name="enter_phone_or_email">Enter phone or email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="country_code">%1$s +%2$d</string>
+    <string name="searchbar_hint">Search</string>
+    <string name="search">Search</string>
+    <string name="search_bar_icon">search bar icon</string>
+    <string name="asking_name">What\'s your name?</string>
+    <string name="display_name">Display Name</string>
+    <string name="disp_name_description">You can use emoji and special characters.</string>
+    <string name="credential_frag_heading">Next, create an account</string>
+    <string name="username_rules">Only use letters, numbers, underscores, and periods.</string>
+    <string name="password_rules">Password must be 8 or more characters.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="dob_frag_heading">And, how old are you?</string>
+    <string name="dob">Date of birth</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="agree_t_and_c">By registering, you agree to Discord\'s <font color="#FF5865F2">Terms of Service</font> and <font color="#FF5865F2">Privacy Policy</font></string>
+    <string name="otp_heading">Enter your confirmation code</string>
+    <string name="email_signin_text">Sign up using email instead</string>
+    <string name="login_heading">Welcom back!</string>
+    <string name="login_description">We\'re so excited to see you again!</string>
+    <string name="account_information">Account Information</string>
+    <string name="acc_info_hint">Email or Phone Number</string>
+    <string name="password_reset">Forgot you password?</string>
+    <string name="password_manager">Use a password manager?</string>
+
 </resources>

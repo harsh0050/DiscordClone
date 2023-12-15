@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/authFragment">
+
+
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_authFragment_to_enterEmailFragment"
+            app:destination="@id/enterContactFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterContactFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.EnterContactFragment"
+        android:label="EnterEmailFragment"
+        tools:layout="@layout/fragment_enter_email">
+        <action
+            android:id="@+id/action_enterEmailFragment_to_enterDisplayNameFragment"
+            app:destination="@id/enterDisplayNameFragment" />
+        <action
+            android:id="@+id/action_enterEmailFragment_to_countryCodeFragment"
+            app:destination="@id/countryCodeFragment" />
+        <action
+            android:id="@+id/action_enterContactFragment_to_enterOtpFragment"
+            app:destination="@id/enterOtpFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/enterDisplayNameFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.EnterDisplayNameFragment"
+        android:label="fragment_enter_display_name"
+        tools:layout="@layout/fragment_enter_display_name" >
+        <action
+            android:id="@+id/action_enterDisplayNameFragment_to_enterCredentialsFragment"
+            app:destination="@id/enterCredentialsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/enterCredentialsFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.EnterCredentialsFragment"
+        android:label="fragment_enter_credentials"
+        tools:layout="@layout/fragment_enter_credentials" >
+        <action
+            android:id="@+id/action_enterCredentialsFragment_to_enterDobFragment"
+            app:destination="@id/enterDobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryCodeFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.CountryCodeFragment"
+        tools:layout="@layout/fragment_country_code"
+        android:label="CountryCodeFragment" />
+    <fragment
+        android:id="@+id/enterDobFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.EnterDobFragment"
+        android:label="fragment_enter_dob"
+        tools:layout="@layout/fragment_enter_dob" >
+        <action
+            android:id="@+id/action_enterDobFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterOtpFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.register.EnterOtpFragment"
+        android:label="fragment_enter_otp"
+        tools:layout="@layout/fragment_enter_otp" >
+        <action
+            android:id="@+id/action_enterOtpFragment_to_enterDisplayNameFragment"
+            app:destination="@id/enterDisplayNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.harsh.discordclone.presentation.authentication.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_countryCodeFragment"
+            app:destination="@id/countryCodeFragment" />
+    </fragment>
+</navigation>
