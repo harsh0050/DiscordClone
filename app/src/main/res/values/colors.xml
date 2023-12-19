@@ -17,6 +17,7 @@
     <color name="lead">#FF1E1F23</color>
     <color name="river_styx">#FF191921</color>
     <color name="musk_memory">#FFC07A87</color>
+    <color name="bottom_nav_bg_color">#FF2C2C38</color>
 
 
 </resources>
