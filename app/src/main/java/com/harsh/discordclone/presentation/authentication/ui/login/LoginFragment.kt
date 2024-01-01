@@ -27,6 +27,7 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
         binding.editTextMotionLayout.setTransitionDuration(ANIM_DURATION)
+        binding.progressBar.visibility = View.GONE
 
         viewModel.isPhoneLogin.observe(viewLifecycleOwner) { isPhoneLogin ->
             if (isPhoneLogin) {
@@ -68,12 +69,21 @@ class LoginFragment : Fragment() {
             ).observe(viewLifecycleOwner) {
                 when (it) {
                     is ResultData.Failed -> {
+                        binding.loginBtn.text = getString(R.string.log_in)
+                        binding.progressBar.visibility = View.GONE
                         binding.errorMsg.text = it.message
                     }
 
-                    ResultData.Loading -> Log.i(TAG, "Loading")
+                    ResultData.Loading -> {
+                        Log.i(TAG, "Loading")
+                        binding.loginBtn.text = ""
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
 
                     is ResultData.Success -> {
+                        binding.loginBtn.text = getString(R.string.log_in)
+                        binding.progressBar.visibility = View.GONE
+                        Log.i(TAG, "ResultData.Success")
                         findNavController().navigateUp()
                     }
                 }

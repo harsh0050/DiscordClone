@@ -150,22 +150,35 @@
         android:textColor="@color/blue_heath_butterfly"
         android:textSize="11sp"
         android:textStyle="bold" />
-
-
-    <Button
-        android:id="@+id/login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <FrameLayout
         android:layout_marginTop="20dp"
-        android:alpha="0.5"
-        android:background="@drawable/rounded_corner_bg"
-        android:backgroundTint="@color/blue_heath_butterfly"
-        android:enabled="false"
-        android:foreground="?android:selectableItemBackground"
-        android:text="@string/log_in"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:background="@drawable/rounded_corner_bg"
+            android:backgroundTint="@color/blue_heath_butterfly"
+            android:enabled="false"
+            android:elevation="0dp"
+            android:foreground="?android:selectableItemBackground"
+            android:text="@string/log_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:elevation="3dp"
+            android:visibility="visible"
+            android:indeterminateTint="@color/white"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/error_msg"
@@ -175,4 +188,6 @@
         android:textColor="@color/musk_memory"
         android:textSize="13sp"
         tools:text="Oop! You;ve caught an ultra rare error. This is probably our fault, so please try again or check our status page." />
+
 </LinearLayout>
+
