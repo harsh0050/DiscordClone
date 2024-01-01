@@ -7,28 +7,36 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.customview.widget.Openable
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
+import com.harsh.discordclone.util.UtilMethod
 import kotlin.math.abs
 
 class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
-    Openable, ViewGroup(context, attr) {
+    ViewGroup(context, attr) {
 
-    private var drawerView: View? = null
+    private var leftView: View? = null
     private var mainContentView: View? = null
-    private var isDrawerOpen = false
-    private val gestureDetector = MyGestureDetector(context)
 
 
     private var isHorizontalScroll = false
     private var checkScroll = true
+    private var isDrawerOpen = false
+    private var isDrawerInTransit = false
+
+    private val elevationInPx: Float = UtilMethod.dpToPixels(4f, context).toFloat()
+
+    private val gestureDetector = MyGestureDetector(context)
+
+    //TODO (rename drawer and main container)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
         // Assuming that there are only two children in this custom layout
         if (childCount == 2) {
-            mainContentView = getChildAt(0)
-            drawerView = getChildAt(1)
+            leftView = getChildAt(0)
+            mainContentView = getChildAt(1)
         } else {
             throw IllegalStateException("CustomDrawerLayout must have exactly two children.")
         }
@@ -41,9 +49,9 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
             getChildMeasureSpec(heightMeasureSpec, 0, mainContentView?.layoutParams?.height ?: 0)
         )
 
-        drawerView?.measure(
-            getChildMeasureSpec(widthMeasureSpec, 0, drawerView?.layoutParams?.width ?: 0),
-            getChildMeasureSpec(heightMeasureSpec, 0, drawerView?.layoutParams?.height ?: 0)
+        leftView?.measure(
+            getChildMeasureSpec(widthMeasureSpec, 0, leftView?.layoutParams?.width ?: 0),
+            getChildMeasureSpec(heightMeasureSpec, 0, leftView?.layoutParams?.height ?: 0)
         )
 
         // Set the size of this layout based on the measured dimensions of child views
@@ -55,13 +63,13 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        leftView?.layout(0, 0, leftView?.measuredWidth ?: 0, leftView?.measuredHeight ?: 0)
         mainContentView?.layout(
             0,
             0,
             mainContentView?.measuredWidth ?: 0,
             mainContentView?.measuredHeight ?: 0
         )
-        drawerView?.layout(0, 0, drawerView?.measuredWidth ?: 0, drawerView?.measuredHeight ?: 0)
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
@@ -70,20 +78,59 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean { //In Transition
+        isDrawerInTransit = true
+        mainContentView?.elevation = elevationInPx
+
+        if (event.action == MotionEvent.ACTION_UP) {
+            if (isDrawerInTransit && mainContentView != null && leftView != null) {
+                if ((mainContentView!!.translationX >= leftView!!.measuredWidth / 2)) {
+                    open()
+                } else {
+                    close()
+                }
+            }
+
+            mainContentView?.elevation = 0f
+        }
         return gestureDetector.onTouch(this, event)
     }
 
-    override fun isOpen(): Boolean {
-        return isDrawerOpen
+
+    val isOpen: Boolean
+        get() {
+            return isDrawerOpen
+        }
+
+    fun open(initialVelocity: Float = 0f) {
+        if (isDrawerOpen && !isDrawerInTransit)
+            return
+        isDrawerOpen = true
+
+        mainContentView?.let {
+            SpringAnimation(
+                it,
+                SpringAnimation.TRANSLATION_X,
+                (leftView?.measuredWidth ?: 0).toFloat()
+            ).apply {
+                spring.dampingRatio = SpringForce.DAMPING_RATIO_NO_BOUNCY
+                setStartVelocity(initialVelocity)
+            }.start()
+        }
+        isDrawerInTransit = false
     }
 
-    override fun open() {
-        //TODO
-    }
-
-    override fun close() {
-        //TODO
+    fun close(initialVelocity: Float = 0f) {
+        if (!isDrawerOpen && !isDrawerInTransit)
+            return
+        isDrawerOpen = false
+        mainContentView?.let {
+            SpringAnimation(it, SpringAnimation.TRANSLATION_X, 0f).apply {
+                spring.dampingRatio = SpringForce.DAMPING_RATIO_NO_BOUNCY
+                setStartVelocity(initialVelocity)
+            }.start()
+        }
+        isDrawerInTransit = false
     }
 
     private inner class MyGestureDetector(context: Context) : OnTouchListener,
@@ -91,7 +138,7 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
 
         private val _gestureDetector = GestureDetector(context, this)
         override fun onTouch(v: View?, event: MotionEvent): Boolean {
-            if(event.action== MotionEvent.ACTION_UP)
+            if (event.action == MotionEvent.ACTION_UP)
                 v?.performClick()
             return _gestureDetector.onTouchEvent(event)
         }
@@ -103,12 +150,9 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
             return true
         }
 
-        override fun onShowPress(e: MotionEvent) {
-        }
+        override fun onShowPress(e: MotionEvent) {}
 
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            return true
-        }
+        override fun onSingleTapUp(e: MotionEvent): Boolean = true
 
         override fun onScroll(
             e1: MotionEvent?,
@@ -116,16 +160,25 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
             distanceX: Float,
             distanceY: Float
         ): Boolean {
-            if(checkScroll){
+            if (checkScroll) {
                 checkScroll = false
-                isHorizontalScroll = abs(distanceX)>abs(distanceY)
+                isHorizontalScroll = abs(distanceX) > abs(distanceY)
+            }
+            if (!isHorizontalScroll)
+                return true
+
+            if (mainContentView != null && leftView != null) {
+                (mainContentView!!.translationX - distanceX).let { finalTranslation ->
+                    if (finalTranslation > 0 && finalTranslation < leftView!!.measuredWidth) {
+                        mainContentView!!.translationX -= distanceX
+                    }
+                }
             }
             return true
 
         }
 
-        override fun onLongPress(e: MotionEvent) {
-        }
+        override fun onLongPress(e: MotionEvent) {}
 
         override fun onFling(
             e1: MotionEvent?,
@@ -133,6 +186,11 @@ class CustomDrawerLayout(context: Context, attr: AttributeSet? = null) :
             velocityX: Float,
             velocityY: Float
         ): Boolean {
+            if (velocityX > 0) {
+                open(velocityX)
+            } else {
+                close(velocityX)
+            }
             return true
         }
 

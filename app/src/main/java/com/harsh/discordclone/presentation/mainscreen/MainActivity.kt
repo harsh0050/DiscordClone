@@ -3,6 +3,7 @@ package com.harsh.discordclone.presentation.mainscreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.harsh.discordclone.databinding.ActivityMainBinding
 
@@ -17,16 +18,5 @@ class MainActivity : AppCompatActivity() {
 //        binding.root.setOnClickListener {
 //            Firebase.auth.signOut()
 //        }
-        binding.mainContainer.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN->{
-                    println("child : action_down")
-                }
-                MotionEvent.ACTION_MOVE->{
-                    println("child : action_move")
-                }
-            }
-            true
-        }
     }
 }
